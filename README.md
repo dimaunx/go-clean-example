@@ -1,5 +1,8 @@
 # Simple golang CLEAN architecture implementation
 
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/dimaunx/go-clean-example)](https://goreportcard.com/report/github.com/dimaunx/go-clean-example)
+
 ## Prerequisites
 
 - go1.17.x recommended installing with [gvm]
