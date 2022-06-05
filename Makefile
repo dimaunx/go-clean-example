@@ -20,32 +20,26 @@ install/lint:
 	golangci-lint version
 
 .PHONY: imports
-## imports > Format and fix all go imports
+## imports > Format and fix all go imports errors
 imports:
 	@echo Running goimports...
-	goimports -w -local bitbucket.org/scalock/cspaas-cloud-api $(shell find $(GIT_ROOT) -type f -name '*.go' -not -path "$(GIT_ROOT)/vendor/*")
+	goimports -w -local github.com/dimaunx/go-clean-example $(shell find $(GIT_ROOT) -type f -name '*.go' -not -path "$(GIT_ROOT)/vendor/*")
 
 .PHONY: vendor
 ## vendor > Run go mod vendor
 vendor:
 	@echo Running vendor...
-	if [ -d "$(GIT_ROOT)/vendor" ]; then
-	  echo "$(GIT_ROOT)/vendor folder already exists"
-	  cd $(GIT_ROOT) && go mod tidy
-	else
-	  cd $(GIT_ROOT) && go mod tidy && go mod vendor
-	fi
+	cd $(GIT_ROOT) && go mod tidy && go mod vendor
 
 .PHONY: lint
-## lint >  Run golangci-lint
+## lint > Run golangci-lint
 lint: vendor
 	@echo Running linter...
 	golangci-lint run -v --timeout=15m
 
 .PHONY: build
 ## build > build docker image, make build tag=test if tag is omitted latest is used
-build:
-	go mod vendor
+build: vendor
 	docker build . -t go-clean-example:$(tag)
 	docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/trivycache:/root/.cache/ aquasec/trivy:$(trivy_version) image --exit-code 0 --severity HIGH,CRITICAL go-clean-example:$(tag)
 
