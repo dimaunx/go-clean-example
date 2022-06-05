@@ -5,6 +5,7 @@ ARCH := $(shell uname -m)
 OS := $(shell uname -s | tr '[:upper:]' '[:lower:]')
 
 trivy_version := 0.26.0
+golangci_lint_version := v1.45.2
 tag := latest
 api_key := test
 
