@@ -1,4 +1,4 @@
-# Simple goland CLEAN architecture implementation
+# Simple golang CLEAN architecture implementation
 
 ## Prerequisites
 
