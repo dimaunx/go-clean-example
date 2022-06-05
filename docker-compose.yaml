@@ -1,0 +1,17 @@
+version: "3.3"
+services:
+  redis:
+    image: "redis:6.2.5"
+    container_name: "redis"
+    ports:
+      - "8902:6379"
+  redis-commander:
+    image: "rediscommander/redis-commander:latest"
+    container_name: "redis-commander"
+    ports:
+      - "8903:8081"
+    depends_on:
+      - redis
+    environment:
+      VIEW_JSON_DEFAULT: "all"
+      REDIS_HOSTS: "local:redis:6379"
