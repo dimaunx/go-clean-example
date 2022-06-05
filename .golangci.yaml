@@ -21,7 +21,7 @@ linters-settings:
     min-occurrences: 12
     ignore-calls: true
   goimports:
-    local-prefixes: bitbucket.org/scalock/cspaas-cloud-api
+    local-prefixes: github.com/dimaunx/go-clean-example
   misspell:
     locale: US
     ignore-words:
