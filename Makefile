@@ -48,9 +48,23 @@ build: vendor
 ## run > run server locally, make run tag=test if tag is omitted latest is used
 run: build
 	docker-compose up -d
-	docker run --rm --network go-clean-example_default -p 8000:8000 -e REDIS_HOST=redis:6379 -e API_KEY=$(api_key) go-clean-example:$(tag)
+	docker run --rm --name go-clean-example \
+		--network go-clean-example_default \
+		-p 8000:8000 \
+		-e REDIS_HOST=redis:6379 \
+		-e API_KEY=$(api_key) \
+		-e MONGO_URI="mongodb://mongo:27017" \
+		-e MONGO_USER=root \
+		-e MONGO_PASSWD=test \
+		go-clean-example:$(tag)
 
 .PHONY: push
 ## push > push docker image, make push tag=test if tag is omitted latest is used
 push: build
 	docker push go-clean-example:$(tag)
+
+.PHONY: cleanup
+## cleanup > cleanup
+cleanup:
+	-docker rm -f go-clean-example &> /dev/null
+	-docker-compose down -v

@@ -54,6 +54,12 @@ make lint
 make run
 ```
 
+### Cleanup
+
+```bash
+make cleanup
+```
+
 ---
 Endpoints:
 
@@ -63,7 +69,7 @@ Auth: Header: X-Api-Key test
 
 redis-commander - http://localhost:8903
 
-redis - localhost:8902
+mongo-express - http://localhost:8905
 
 <!--links-->
 

@@ -13,12 +13,6 @@ import (
 
 var redisHost = os.Getenv("REDIS_HOST")
 
-type DeviceRepository interface {
-	Save(ctx context.Context, d *entity.Device) (string, error)
-	FindById(ctx context.Context, id string) (*entity.Device, error)
-	FindAll(ctx context.Context) ([]entity.Device, error)
-}
-
 type redisRepo struct{}
 
 func NewRedisRepository() DeviceRepository {
@@ -83,6 +77,9 @@ func (redisRepo) FindById(ctx context.Context, id string) (*entity.Device, error
 	r := NewRedis(redisHost, false, "", 0)
 	device, err := r.Get(ctx, id).Bytes()
 	if err != nil {
+		if err == redis.Nil {
+			return nil, nil
+		}
 		return nil, err
 	}
 

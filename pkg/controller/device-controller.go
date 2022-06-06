@@ -3,6 +3,7 @@ package controller
 import (
 	"context"
 	"net/http"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 
@@ -44,6 +45,9 @@ func (c Controller) FindAll(e echo.Context) error {
 func (c Controller) FindById(e echo.Context) error {
 	device, err := c.deviceUseCase.FindById(c.ctx, e.Param("id"))
 	if err != nil {
+		if strings.Contains(err.Error(), "mongo: no documents in result") {
+			return echo.NewHTTPError(http.StatusNotFound, "Device not found")
+		}
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 	return e.JSON(http.StatusOK, device)

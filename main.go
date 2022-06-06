@@ -11,7 +11,9 @@ import (
 
 func main() {
 	ctx := context.Background()
-	repo := repository.NewRedisRepository()
+	repo := repository.NewMongoRepository()
+	// Switch to redis
+	// repo := repository.NewRedisRepository()
 	deviceUseCase := usecase.NewDeviceUseCase(repo)
 	deviceController := controller.NewDeviceController(ctx, deviceUseCase)
 	httpRouter := router.NewRouter()
