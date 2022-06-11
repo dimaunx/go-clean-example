@@ -17,10 +17,10 @@ var (
 	mongoPasswd = os.Getenv("MONGO_PASSWD")
 )
 
-type mongoRepo struct{}
+type MongoRepo struct{}
 
-func NewMongoRepository() DeviceRepository {
-	return &mongoRepo{}
+func NewMongoRepository() *MongoRepo {
+	return &MongoRepo{}
 }
 
 func NewMongoClient() (*mongo.Client, error) {
@@ -36,7 +36,7 @@ func NewMongoClient() (*mongo.Client, error) {
 	return client, nil
 }
 
-func (mongoRepo) Save(ctx context.Context, d *entity.Device) (string, error) {
+func (MongoRepo) Save(ctx context.Context, d *entity.Device) (string, error) {
 	client, err := NewMongoClient()
 	if err != nil {
 		return "", err
@@ -56,7 +56,7 @@ func (mongoRepo) Save(ctx context.Context, d *entity.Device) (string, error) {
 	return d.Id, nil
 }
 
-func (mongoRepo) FindAll(ctx context.Context) ([]entity.Device, error) {
+func (MongoRepo) FindAll(ctx context.Context) ([]entity.Device, error) {
 	client, err := NewMongoClient()
 	if err != nil {
 		return nil, err
@@ -85,7 +85,7 @@ func (mongoRepo) FindAll(ctx context.Context) ([]entity.Device, error) {
 	return results, nil
 }
 
-func (mongoRepo) FindById(ctx context.Context, id string) (*entity.Device, error) {
+func (MongoRepo) FindById(ctx context.Context, id string) (*entity.Device, error) {
 	client, err := NewMongoClient()
 	if err != nil {
 		return nil, err

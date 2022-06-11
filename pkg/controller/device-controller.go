@@ -18,12 +18,12 @@ type DeviceController interface {
 }
 
 type Controller struct {
-	deviceUseCase usecase.DeviceService
+	deviceUseCase *usecase.DeviceUseCase
 	ctx           context.Context
 }
 
-func NewDeviceController(ctx context.Context, u usecase.DeviceService) DeviceController {
-	return Controller{deviceUseCase: u, ctx: ctx}
+func NewDeviceController(ctx context.Context, u *usecase.DeviceUseCase) *Controller {
+	return &Controller{deviceUseCase: u, ctx: ctx}
 }
 
 func (c Controller) FindAll(e echo.Context) error {

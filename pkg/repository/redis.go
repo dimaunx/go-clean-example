@@ -13,10 +13,10 @@ import (
 
 var redisHost = os.Getenv("REDIS_HOST")
 
-type redisRepo struct{}
+type RedisRepo struct{}
 
-func NewRedisRepository() DeviceRepository {
-	return &redisRepo{}
+func NewRedisRepository() *RedisRepo {
+	return &RedisRepo{}
 }
 
 // NewRedis returns a client to the Redis Server
@@ -34,7 +34,7 @@ func NewRedis(host string, enableTls bool, passwd string, db int) *redis.Client 
 	return c
 }
 
-func (redisRepo) Save(ctx context.Context, d *entity.Device) (string, error) {
+func (RedisRepo) Save(ctx context.Context, d *entity.Device) (string, error) {
 	r := NewRedis(redisHost, false, "", 0)
 	data, err := json.Marshal(d)
 	if err != nil {
@@ -48,7 +48,7 @@ func (redisRepo) Save(ctx context.Context, d *entity.Device) (string, error) {
 	return d.Id, nil
 }
 
-func (redisRepo) FindAll(ctx context.Context) ([]entity.Device, error) {
+func (RedisRepo) FindAll(ctx context.Context) ([]entity.Device, error) {
 	var results []entity.Device
 	r := NewRedis(redisHost, false, "", 0)
 	iter := r.Scan(ctx, 0, "*", 0).Iterator()
@@ -73,7 +73,7 @@ func (redisRepo) FindAll(ctx context.Context) ([]entity.Device, error) {
 	return results, nil
 }
 
-func (redisRepo) FindById(ctx context.Context, id string) (*entity.Device, error) {
+func (RedisRepo) FindById(ctx context.Context, id string) (*entity.Device, error) {
 	r := NewRedis(redisHost, false, "", 0)
 	device, err := r.Get(ctx, id).Bytes()
 	if err != nil {

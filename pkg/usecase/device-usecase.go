@@ -19,8 +19,8 @@ type DeviceUseCase struct {
 	repo repository.DeviceRepository
 }
 
-func NewDeviceUseCase(r repository.DeviceRepository) DeviceService {
-	return DeviceUseCase{repo: r}
+func NewDeviceUseCase(r repository.DeviceRepository) *DeviceUseCase {
+	return &DeviceUseCase{repo: r}
 }
 
 func (s DeviceUseCase) Add(ctx context.Context, d *entity.Device) (string, error) {
