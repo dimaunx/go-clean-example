@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/pkg/errors"
+
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -53,7 +55,7 @@ func (r router) Start(address string) {
 			return key == apikey, nil
 		},
 	}))
-	if err := r.router.Start(address); err != http.ErrServerClosed {
+	if err := r.router.Start(address); !errors.Is(err, http.ErrServerClosed) {
 		r.router.Logger.Fatal(err)
 	}
 }

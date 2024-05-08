@@ -65,10 +65,9 @@ func (c Controller) AddDevice(e echo.Context) error {
 
 	id, err := c.deviceUseCase.Add(c.ctx, device)
 	if err != nil {
-		if err != nil {
-			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
-		}
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
+
 	return e.JSON(http.StatusOK, struct {
 		Message string `json:"message"`
 		Id      string `json:"id"`
